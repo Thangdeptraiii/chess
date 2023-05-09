@@ -355,6 +355,7 @@ const moveChessTurn = [];
 const movePawnTurn = [];
 const cellPawnEatAR = [];
 
+
 const displayBlockCanJump = (chess, toggle) => {
   // --------- GET ID AND GET INDEX --------- \\
 
@@ -1010,10 +1011,9 @@ const handleSelectChess = (chess) => {
       cellmove.style.backgroundColor === "red"
     ) {
       document.getElementById(id).style.backgroundImage = "";
-      document.getElementById(id).style.backgroundColor = '';
+      document.getElementById(id).style.backgroundColor = '#4caf50';
       cellmove.style.backgroundImage = img;
       cellmove.style.backgroundSize = "cover";
-      
       // unhightlight pawn
       if (movePawnTurn.length > 0) {
         movePawnTurn.forEach((chess) => {
@@ -1028,22 +1028,28 @@ const handleSelectChess = (chess) => {
         });
         moveChessTurn.length = [];
       }
-
+      // unhightlight pawn eat
       if (cellPawnEatAR.length > 0) {
         cellPawnEatAR.forEach((chess) => {
           chess.style.backgroundColor = "";
         });
         cellPawnEatAR.length = [];
       }
-
+      cellmove.style.backgroundColor = '#4caf50';
+      moveChessTurn.push(cellmove);
     }
   }
 
   if (
     chess.style.backgroundImage.length !== 0 &&
     chess.style.backgroundColor !== "red"
-  ) 
+  ) {
     chessMove(chess);
+    if (chess.style.backgroundImage.length !==0) {
+        chess.style.backgroundColor = 'pink'
+        clickChess.push(chess)
+      }
+  }
 };
 
 document.querySelectorAll(".element").forEach((chess) => {
@@ -1052,21 +1058,16 @@ document.querySelectorAll(".element").forEach((chess) => {
     handleSelectChess(chess);
 
 // --------- TOGGLE TURN --------- \\
-    if (tog % 2 === 0) {
-      if (
-    chess.style.backgroundImage.length !== 0 &&
-    chess.style.backgroundColor !== "red"
-    ) {
+    {
+    if (tog % 2 === 0) 
       displayBlockCanJump(chess, "white");
-    }
-    }
-    if (
-      chess.style.backgroundColor === "lightgreen" ||
-      chess.style.backgroundColor === "red"
+    
+    if (chess.style.backgroundColor === "lightgreen" ||
+        chess.style.backgroundColor === "red"
     )
       tog = tog + 1;
 
-    if (tog % 2 !== 0) {
+    if (tog % 2 !== 0) 
       displayBlockCanJump(chess, "black")
     }
 
@@ -1088,8 +1089,13 @@ document.querySelectorAll(".element").forEach((chess) => {
         location.reload()
       },100)
     }
+
+// ---------REMOVE PINK COLOR --------- \\
+    if (chess.style.backgroundColor === "") {
+      document.querySelectorAll(".element").forEach((chess) => {
+        if (chess.style.backgroundColor = "pink")
+          chess.style.backgroundColor = ""
+      })
+    }
   })
 });
-
-
-
